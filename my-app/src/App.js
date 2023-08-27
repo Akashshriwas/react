@@ -1,13 +1,15 @@
 import './App.css';
 
 import Navbar from './component/Navbar';
-import Note from './component/Note'
+import Tooldropdown from './component/Tooldropdown';.
+// import Note from './component/Note'
 
 function App() {
   return (
     <div>
   <Navbar/>,
-  <Note/>
+  {/* <Note/> */}
+  <Tooldropdown/>
   
   </div>
   );
