@@ -128,8 +128,10 @@ export default function Note() {
       // Send a delete request to the backend
       const response = await axios.post('http://localhost:4000/delete-apk', {
         apkIdentifier: apkToDelete.identifier,
+
         
       });
+      console.log('Deleted APK:', apkToDelete.name);
   
       console.log('Response from delete:', response.data);
       // Update the list of selected APKs here if needed
@@ -204,6 +206,8 @@ export default function Note() {
   //   const cachedReport = localStorage.getItem(selectedDropdownItem.name);
   //   return cachedReport !== null;
   // };
+
+
 
 
 
@@ -288,25 +292,42 @@ export default function Note() {
   //   return cachedReport !== null;
   // };
 
-
   const generateSectionsForAndrowarn = (reportContent) => {
-    const delimiter = '[+]';
+    const sectionDelimiter = '[+]';
     const subSectionDelimiter = '[.]';
-    const sections = reportContent.split(delimiter);
+    const sections = reportContent.split(sectionDelimiter);
     const parsedSections = [];
   
     for (let i = 1; i < sections.length; i++) {
-      const subsections = sections[i].split(subSectionDelimiter);
-      const title = subsections[0].trim();
-      const content = subsections.slice(1).map(subsection => subsection.trim()).join('\n');
+      const sectionContent = sections[i].trim();
+      const subSections = sectionContent.split(subSectionDelimiter).map(subsection => subsection.trim());
   
-      parsedSections.push({ title, content, subSections: subsections.slice(1) });
-      console.log('Section Title:', title);
-      console.log('Section Content:', content);
+      if (subSections.length > 1) {
+        const title = subSections.shift(); // Remove the title from subSections
+        const content = subSections.join('\n'); // Join the remaining subSections as content
+        parsedSections.push({ title, content, subSections });
+      } else {
+        // If there are no subSections, treat the entire sectionContent as the title and content
+        parsedSections.push({ title: sectionContent, content: sectionContent, subSections: [] });
+      }
     }
   
     return parsedSections;
   };
+
+  const sampleReportContent = `
+[+] Section 1
+[.] Subsection 1.1
+[.] Subsection 1.2
+[+] Section 2
+[.] Subsection 2.1
+`;
+
+const parsedSections = generateSectionsForAndrowarn(sampleReportContent);
+console.log('Parsed Sections:', parsedSections);
+
+  
+  
   
 
 

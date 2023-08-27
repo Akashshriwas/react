@@ -205,7 +205,7 @@ app.post('/delete-apk', (req, res) => {
 
   // Construct the file path based on the unique identifier
   const filePath = path.join(uploadDirectory, apkIdentifier + '.apk');
-
+  console.log('Deleted file:', filePath);
   fs.unlink(filePath, (err) => {
     if (err) {
       console.error('Error deleting file:', filePath, err);
