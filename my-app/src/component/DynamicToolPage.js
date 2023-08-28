@@ -1,9 +1,11 @@
 import React from 'react'
+import SS from './SS'
 
 export default function DynamicToolPage() {
   return (
     <div>
-      <h1>akash</h1>
+      <SS.js/>
+
     </div>
   )
 }

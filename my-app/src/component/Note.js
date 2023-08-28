@@ -92,48 +92,105 @@ export default function Note() {
 
   // ################ on change function for choose file button #######################
   const handleApkSelection = async (event) => {
-    const selectedApk = event.target.files[0];
-    console.log('apk selected in handle apk selection:', selectedApk);
-  
-    if (selectedApk) {
-      setSelectedApks((prevSelectedApks) => {
-        console.log('prev apks:', prevSelectedApks);
-  
-        // Check if the APK with the same name is already selected
-        const apkAlreadySelected = prevSelectedApks.some((apk) => apk.name === selectedApk.name);
-  
-        if (prevSelectedApks.length >= 10) {
-          // Show an alert
-          alert('You have reached the limit of 10 selected APKs. Delete some APKs to add more.');
-  
-          return prevSelectedApks; // Return the existing array without changes
-        } else if (!apkAlreadySelected) {
-          return [...prevSelectedApks, selectedApk];
-        } else {
-          console.log('APK with the same name already selected.');
-          return prevSelectedApks; // Return the existing array without changes
+    console.log('--------------- Running handleApkd selection method ------------------')
+    const choosedFile = event.target.files[0];
+    console.log('apk selected in handle apk selection:', choosedFile);
+    console.log('selected apks : ', selectedApks)
+    if (choosedFile) {
+        console.log('prev apks:', selectedApks);
+        const nameOfSelectedApk = choosedFile.name
+        let temp = selectedApks.filter((apk) => {
+          return apk.name == nameOfSelectedApk
+        })
+        if(temp.length > 0) {
+          console.log('File already uploaded')
+          const userChoice = window.confirm('Duplicate files, wanna delete the existing file?')
+          if(!userChoice){
+            return;
+          }
+          handleApkDelete(temp[0])
+          // let copyAPK = selectedApk;
+          // copyAPK.name = userChoice
+          // return;
         }
-      });
+        const formData = new FormData();
+        formData.append('apkFile', choosedFile);
+
+        try {
+          const response = await axios.post('http://localhost:4000/upload-apk', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          console.log('File uploaded successfully in the server :', response.data);
+          const apkInfo = response.data.apkInfo;
+          const pre = "uploads\\"
+          let fileServerName = apkInfo.filePath;
+          fileServerName = fileServerName.slice(fileServerName.indexOf(pre) + pre.length)
+
+          console.log('APK Info:', apkInfo);
+          if (selectedApks.length >= 10) {
+            // Show an alert
+            alert('You have reached the limit of 10 selected APKs. Delete some APKs to add more.');
+            
+            // return prevSelectedApks; // Return the existing array without changes
+            // } else if (!apkAlreadySelected) {
+              //   return [...prevSelectedApks, selectedApk];
+            // } else {
+            //   console.log('APK with the same name already selected.');
+            //   return prevSelectedApks; // Return the existing array without changes
+            // }
+          }else{
+                
+            choosedFile['fileServerName'] = fileServerName
+            choosedFile['packageName'] = apkInfo.packageName
+            choosedFile['versionName'] = apkInfo.versionName
+            choosedFile.filePath = apkInfo.filePath
+            choosedFile.permissions = apkInfo.permissions
+            console.log('After adding server response : ', choosedFile)
+            // setApkInfo(selectedApk);
+            setSelectedApk(choosedFile)
+            const temp = [...selectedApks, choosedFile]
+            console.log('temp : ', temp)
+            setSelectedDropdownItem(choosedFile);
+            setSelectedApks((prev) => ([...prev, choosedFile]))
+          }
+          } catch (error) {
+            console.error('Error uploading file:', error);
+          }
+        // setSelectedDropdownItem(apkSelected);
+        // Check if the APK with the same name is already selected
+        // const apkAlreadySelected = prevSelectedApks.some((apk) => apk.name === selectedApk.name);
+  
+        
     }
   };
   
   const handleApkDelete = async (apkToDelete) => {
     try {
+      console.log('deleting apk : ', apkToDelete)
       // Check if the APK object is missing or doesn't have necessary properties
-      if (!apkToDelete || !apkToDelete.identifier) {
+      if (!apkToDelete) {
         console.error('Invalid APK object:', apkToDelete);
         return;
       }
   
       // Send a delete request to the backend
       const response = await axios.post('http://localhost:4000/delete-apk', {
-        apkIdentifier: apkToDelete.identifier,
-
-        
+        apkIdentifier: apkToDelete.fileServerName,
       });
+      if(response.success == false){
+        alert('Error while deleting file')
+        return;
+      }
+
       console.log('Deleted APK:', apkToDelete.name);
-  
       console.log('Response from delete:', response.data);
+      const updatedList = selectedApks.filter((apk) => apk.name != apkToDelete.name)
+      if(selectedApk.name == apkToDelete){
+        setSelectedApk(null);
+      }
+      setSelectedApks(updatedList)
       // Update the list of selected APKs here if needed
     } catch (error) {
       console.error('Error deleting APK:', error);
@@ -148,33 +205,35 @@ export default function Note() {
 
   // ############################## Changing dropdown item ############################## 
   const handleDropdownSelection = async (event) => {
+    console.log('--------------- Running handle dropdown selection method ------------------')
     // console.log('Dropdown value changed !!!!!!!!!!!!')
     const selectedApkIndex = event.target.selectedIndex - 1;
     console.log('index : ', selectedApkIndex)
     const apkSelected = selectedApks[selectedApkIndex]
     console.log('apk selected : ', apkSelected)
+    const name = apkSelected.name
+
     // console.log(event.target.selectedIndex)
     // console.log('apk selected in handle dropdown :', selectedApk);
+
+    // to select apk in the main dropdown
     setSelectedApk(apkSelected);
-    const formData = new FormData();
-    formData.append('apkFile', apkSelected);
+    // setApkInfo(apkInfo);
+    // const formData = new FormData();
+    // formData.append('apkFile', apkSelected);
 
-    try {
-      const response = await axios.post('http://localhost:4000/upload-apk', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      console.log('File uploaded successfully:', response.data);
-      const apkInfo = response.data.apkInfo;
-      console.log('APK Info:', apkInfo);
-      setApkInfo(apkInfo);
-
-
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
+    // try {
+    //   const response = await axios.post('http://localhost:4000/upload-apk', formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data',
+    //     },
+    //   });
+    //   console.log('File uploaded successfully:', response.data);
+    //   const apkInfo = response.data.apkInfo;
+    //   console.log('APK Info:', apkInfo);
+    // } catch (error) {
+    //   console.error('Error uploading file:', error);
+    // }
     setSelectedDropdownItem(apkSelected);
   }
 
@@ -214,7 +273,8 @@ export default function Note() {
 
 
   const handleRunClick = () => {
-    if (!apkInfo) {
+    console.log(selectedApk)
+    if (!selectedApk) {
       console.error('APK file is not uploaded yet.');
       return;
     }
@@ -232,13 +292,13 @@ export default function Note() {
     // const sampleCachedReport = "   ";
    
     // const selectedApkInfo = selectedApks.find((apk) => apk.name === selectedItem);
-    const selectedApk = selectedApks.find((apk) => apk === selectedDropdownItem);
+    // const selectedApk = selectedApks.find((apk) => apk === selectedDropdownItem);
 
     setIsRunning(true);
     axios
       .post('http://localhost:4000/run-command', {
         tool: selectedItem,
-        apkInfo: apkInfo,
+        apkInfo: selectedApk,
       })
       .then((response) => {
         // console.log(response.data);
@@ -505,7 +565,7 @@ console.log('Parsed Sections:', parsedSections);
       <Apkselection
         selectedApks={selectedApks}
         selectedApk={selectedApk}
-        apkInfo={apkInfo}
+        apkInfo={selectedApk}
         handleApkSelection={handleApkSelection}
         handleDropdownSelection={handleDropdownSelection}
         handleRunClick={handleRunClick}

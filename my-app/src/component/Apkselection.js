@@ -12,6 +12,7 @@ export default function ApkSelection({
   selectedDropdownItem,
   handleApkDelete,
 }) {
+  console.log('ApkInfo in frontend ', apkInfo)
   return (
     <div className="file-input m-3 text-bar-container animate__animated animate__fadeIn">
       <input type="file" accept=".apk" onChange={handleApkSelection} id="file-input" className="custom-file-input" />

@@ -173,7 +173,7 @@ app.post('/upload-apk', upload.single('apkFile'), (req, res) => {
   if (req.file) {
     // File uploaded successfully
     const { originalname, path, mimetype } = req.file;
-
+    console.log(path)
     // Process the uploaded APK file and extract information
     // Implement your APK analysis logic here to extract the necessary information
     // You can use libraries like APKTool or AndroGuard to extract APK information
@@ -202,14 +202,16 @@ app.post('/delete-apk', (req, res) => {
   if (!apkIdentifier) {
     return res.status(400).json({ error: 'APK identifier is missing' });
   }
-
+  const pathTillNow =  process.cwd()
   // Construct the file path based on the unique identifier
-  const filePath = path.join(uploadDirectory, apkIdentifier + '.apk');
-  console.log('Deleted file:', filePath);
+  const filePath = path.join(pathTillNow, uploadDirectory, apkIdentifier);
+  console.log('File path 208 : ', filePath)
+  console.log('Upload directory : ', uploadDirectory)
+  console.log('Deleting file:', filePath);
   fs.unlink(filePath, (err) => {
     if (err) {
       console.error('Error deleting file:', filePath, err);
-      return res.status(500).json({ error: 'Error deleting file' });
+      return res.status(500).json({ success : false, error: 'Error deleting file' });
     }
 
     console.log('Deleted file:', filePath);
@@ -217,7 +219,7 @@ app.post('/delete-apk', (req, res) => {
     // You can perform additional tasks here if needed
     // ...
 
-    res.json({ message: 'APK deleted successfully' });
+    res.json({ success : true, message: 'APK deleted successfully' });
   });
 });
 
