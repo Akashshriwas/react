@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route, BrowserRouter as Router, Outlet } from 'react-router-dom';
 import StaticToolpage from './StaticToolpage';
 import DynamicToolPage from './DynamicToolPage';
+import './Tooldropdown.css'
 
 export default function App() {
   return (
@@ -31,7 +32,8 @@ function Tooldropdown() {
   }
 
   return (
-    <div>
+    <div className="page-container">
+    <div className='container'>
       <h1>APK Analysis Tool</h1>
       <select onChange={(e) => handleToolSelect(e.target.value)}>
         <option value="">Select a tool</option>
@@ -42,6 +44,7 @@ function Tooldropdown() {
       {toolContent}
 
       <Outlet /> {/* This will render nested routes */}
+    </div>
     </div>
   );
 }
