@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-// const MongoDB = require('./db');
+const mongooseConnection = require('./db');
 const multer = require('multer');
+const mongoose = require('mongoose')
 const upload = multer({ dest: 'uploads/' });
 const path = require('path');
 const fs = require('fs'); 
+const cweSchema = require('./CWEDB')
 // const reportDirectory = path.join(__dirname, 'reports');
 
 // const stagingAreaDirectory = 'staging_area/';
@@ -14,9 +16,16 @@ const fileMapping = {}; // Maintain a mapping of original filenames to unique id
 
 
 
-// MongoDB();
+mongooseConnection();
 const maxFileCount = 10; // Maximum number of files to store
 const uploadDirectory = 'uploads/';
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+});
 
 app.use(cors());
 app.use(express.json());
@@ -24,6 +33,32 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
+
+app.get('/getcwe/:cwe',async (req, res)=>{
+  // let cweNum = req.
+  const cwe = req.params.cwe
+  const cweObj = await cweSchema.findOne({"CWE_No" : cwe})
+  if(cweObj == undefined) {
+    res.json({success : false})
+    console.log('cwe object does not exist')
+    return;
+  }
+  console.log('cwe object exists')
+  res.json({success : true, data : cweObj})
+})
+
+app.post('/makeCWE', async (req, res) => {
+  // const cweNum = req.body
+  const cweObj = req.body;
+  
+  cweSchema.create(cweObj).then((res) => {
+    console.log('some result', res)
+  }, (err) => {
+    console.log('error ', err)
+  })
+  res.json({'success' : true, cweObj})
+})
 
 const { exec } = require('child_process');
 
@@ -40,7 +75,7 @@ app.post('/run-command', (req, res) => {
 
     console.log(apkInfo.filePath); // Log the filePath for debugging purposes
   } else if (tool === 'Androbugs') {
-    toolPath = 'C:/Users/Admin/Desktop/androbugs2/androbugs.py';
+    toolPath = 'C:/Users/HP/Desktop/androbugs2/androbugs.py';
     command = `python "${toolPath}" -f "${apkInfo.filePath.replace(/\\/g, '\\\\')}"`;
 
   } else if (tool === 'Mobsf') {
@@ -80,6 +115,7 @@ app.post('/run-command', (req, res) => {
       // Set the appropriate headers for file download
       res.setHeader('Content-Type', 'text/plain');
       res.setHeader('Content-Disposition', 'attachment; filename="downloaded_file.txt"');
+      console.log('response :',res)
   
       // Stream the file to the client
       const fileStream = fs.createReadStream(filePath);

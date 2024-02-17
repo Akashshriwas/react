@@ -1,0 +1,78 @@
+===== Androwarn Report =====
+[+] Application Information
+	[.] Application Name                        
+		 - AndroidSpecific_Obfuscation1
+
+	[.] Application Version                     
+		 - 1.0
+
+	[.] Package Name                            
+		 - de.ecspride
+
+	[.] Description                             
+		 - N/A
+		 - N/A
+
+
+[+] Analysis Results
+	[.] Telephony Identifiers Leakage           
+		 - This application reads the unique device ID, i.e the IMEI for GSM and the MEID or ESN for CDMA phones
+
+	[.] Device Settings Harvesting              
+		 - This application logs the message '  Current loader is stopped; replacing' under the tag 'LoaderManager'
+		 - This application logs the message '  Enqueuing as new pending loader' under the tag 'LoaderManager'
+		 - This application logs the message '  Ignoring load complete -- destroyed' under the tag 'LoaderManager'
+		 - This application logs the message '  Ignoring load complete -- not active' under the tag 'LoaderManager'
+		 - This application logs the message '' under the tag ''
+		 - This application logs the message '0' under the tag 'LocalBroadcastManager'
+		 - This application logs the message '10' under the tag 'FragmentManager'
+		 - This application logs the message '10' under the tag 'FragmentStatePagerAdapter'
+		 - This application logs the message '11' under the tag 'FragmentManager'
+		 - This application logs the message '12' under the tag 'FragmentManager'
+		 - This application logs the message '2' under the tag 'FragmentManager'
+		 - This application logs the message '2' under the tag 'LoaderManager'
+		 - This application logs the message '2' under the tag 'ViewPager'
+		 - This application logs the message '3' under the tag 'FragmentManager'
+		 - This application logs the message '3' under the tag 'LoaderManager'
+		 - This application logs the message '4' under the tag 'FragmentActivity'
+		 - This application logs the message '4' under the tag 'FragmentManager'
+		 - This application logs the message '4' under the tag 'LoaderManager'
+		 - This application logs the message '5' under the tag 'FragmentManager'
+		 - This application logs the message '6' under the tag 'AtomicFile'
+		 - This application logs the message '6' under the tag 'FragmentManager'
+		 - This application logs the message '7' under the tag 'NavUtils'
+		 - This application logs the message '8' under the tag 'FragmentManager'
+		 - This application logs the message '9' under the tag 'FragmentActivity'
+		 - This application logs the message '9' under the tag 'FragmentManager'
+		 - This application logs the message 'Activity state:' under the tag 'FragmentManager'
+		 - This application logs the message 'Bad ComponentName while traversing activity parent metadata' under the tag 'TaskStackBuilder'
+		 - This application logs the message 'Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;' under the tag 'ViewPager ViewPager'
+		 - This application logs the message 'Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;' under the tag 'ViewPager'
+		 - This application logs the message 'Ljava/lang/RuntimeException;->getMessage()Ljava/lang/String;' under the tag 'FragmentManager'
+		 - This application logs the message 'saveAllState: no fragments!' under the tag 'FragmentManager'
+
+	[.] Connection Interfaces Exfiltration      
+		 - This application reads details about the currently active data network
+		 - This application tries to find out if the currently active data network is metered
+
+	[.] Telephony Services Abuse                
+		 - This application sends an SMS message '1' to the 'phone +49' phone number
+
+
+[+] Apk File
+	[.] File Name                               
+		 - 69744b6cd65ba415685858d36339f8e6
+
+	[.] Fingerprint                             
+		 - MD5: 2ae8d94097e4ebef94d47ac6c5a61eb5
+		 - SHA-1: 494a82d3389e94323163c7fa605c5a011e23d827
+		 - SHA-256: 8a2c49181f87374ab9ce1d8b0df68f9388528f507fa84ea84abf5bf43f8bc6aa
+
+
+[+] Androidmanifest.Xml
+	[.] Permissions                             
+		 - Asked: ['android.permission.READ_PHONE_STATE', 'android.permission.SEND_SMS']
+		 - Implied: []
+		 - Declared: []
+
+

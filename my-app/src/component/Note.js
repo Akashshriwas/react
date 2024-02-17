@@ -4,12 +4,14 @@ import axios from 'axios';
 import 'animate.css';
 // import { Accordion, Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-// import cwedata from '../cwe.json';
-import Stepbyguide from './Stepbyguide';
+import cwedata from '../cwe_final.json';
+import temp from '../temp.json'
+// import Stepbyguide from './Stepbyguide';
 import Dropdown from './Dropdown';
 import Toolinfo from './Toolinfo';
 import Reportsection from './Reportsection';
 import Apkselection from './Apkselection'
+import './Note.css';
 
 export default function Note() {
   const [selectedItem, setSelectedItem] = useState('');
@@ -104,7 +106,7 @@ export default function Note() {
         })
         if(temp.length > 0) {
           console.log('File already uploaded')
-          const userChoice = window.confirm('Duplicate files, wanna delete the existing file?')
+          const userChoice = window.confirm('Duplicate files, wanna update the existing file?')
           if(!userChoice){
             return;
           }
@@ -147,11 +149,11 @@ export default function Note() {
             choosedFile['versionName'] = apkInfo.versionName
             choosedFile.filePath = apkInfo.filePath
             choosedFile.permissions = apkInfo.permissions
-            console.log('After adding server response : ', choosedFile)
+            // console.log('After adding server response : ', choosedFile)
             // setApkInfo(selectedApk);
             setSelectedApk(choosedFile)
             const temp = [...selectedApks, choosedFile]
-            console.log('temp : ', temp)
+            // console.log('temp : ', temp)
             setSelectedDropdownItem(choosedFile);
             setSelectedApks((prev) => ([...prev, choosedFile]))
           }
@@ -168,7 +170,7 @@ export default function Note() {
   
   const handleApkDelete = async (apkToDelete) => {
     try {
-      console.log('deleting apk : ', apkToDelete)
+      // console.log('deleting apk : ', apkToDelete)
       // Check if the APK object is missing or doesn't have necessary properties
       if (!apkToDelete) {
         console.error('Invalid APK object:', apkToDelete);
@@ -184,8 +186,8 @@ export default function Note() {
         return;
       }
 
-      console.log('Deleted APK:', apkToDelete.name);
-      console.log('Response from delete:', response.data);
+      // console.log('Deleted APK:', apkToDelete.name);
+      // console.log('Response from delete:', response.data);
       const updatedList = selectedApks.filter((apk) => apk.name != apkToDelete.name)
       if(selectedApk.name == apkToDelete){
         setSelectedApk(null);
@@ -273,7 +275,7 @@ export default function Note() {
 
 
   const handleRunClick = () => {
-    console.log(selectedApk)
+    // console.log(selectedApk)
     if (!selectedApk) {
       console.error('APK file is not uploaded yet.');
       return;
@@ -306,6 +308,7 @@ export default function Note() {
         // console.log('file path : ', response.data.reportFilePath)
         // console.log(response.data)
         generateSections(response.data); // Generate sections from the report content
+        // console.log("rrrr :",response.data)
         // if (response.data.reportFilePath) {
         //   axios
         //     .get(`http://localhost:4000/${response.data.reportFilePath}`)
@@ -352,6 +355,9 @@ export default function Note() {
   //   return cachedReport !== null;
   // };
 
+
+
+
   const generateSectionsForAndrowarn = (reportContent) => {
     const sectionDelimiter = '[+]';
     const subSectionDelimiter = '[.]';
@@ -360,103 +366,275 @@ export default function Note() {
   
     for (let i = 1; i < sections.length; i++) {
       const sectionContent = sections[i].trim();
-      const subSections = sectionContent.split(subSectionDelimiter).map(subsection => subsection.trim());
+      const subSections = sectionContent.split(subSectionDelimiter).map(subsection => {
+        const lines = subsection.split('\n').map(line => line.trim());
+        return { title: lines[0], content: lines.slice(1).join('\n') };
+      });
   
       if (subSections.length > 1) {
-        const title = subSections.shift(); // Remove the title from subSections
-        const content = subSections.join('\n'); // Join the remaining subSections as content
-        parsedSections.push({ title, content, subSections });
+        const title = subSections[0].title;
+        const subSectionsArray = subSections.slice(1);
+        parsedSections.push({ title, subSections: subSectionsArray });
       } else {
         // If there are no subSections, treat the entire sectionContent as the title and content
-        parsedSections.push({ title: sectionContent, content: sectionContent, subSections: [] });
+        parsedSections.push({ title: sectionContent.trim(), subSections: [] });
       }
     }
   
     return parsedSections;
   };
-
-  const sampleReportContent = `
-[+] Section 1
-[.] Subsection 1.1
-[.] Subsection 1.2
-[+] Section 2
-[.] Subsection 2.1
-`;
-
-const parsedSections = generateSectionsForAndrowarn(sampleReportContent);
-console.log('Parsed Sections:', parsedSections);
-
-  
   
   
 
+  ///////////////////////////////androbug report///////////////////////////////////////
+  // const generateSectionsForAndrobugs = (reportContent) => {
+  //   console.log("bbbb :",reportContent)
+  //   const delimiter = /(\[Critical\]|\[Warning\]|\[Notice\]|\[Info\])/;
+  //   const sections = reportContent.split(delimiter);
+  //   const parsedSections = [];
 
-  const generateSectionsForAndrobugs = (reportContent) => {
-    const delimiter = /(\[Critical\]|\[Warning\]|\[Notice\]|\[Info\])/;
-    const sections = reportContent.split(delimiter);
-    const parsedSections = [];
+  //   let currentTitle = '';
+  //   let combinedContent = '';
+  //   console.log('sections : ', sections)
 
-    let currentTitle = '';
-    let combinedContent = '';
-    // console.log('sections : ', sections)
-
-    for (let i = 1; i < sections.length; i += 2) {
-      let title = sections[i].trim();
-      let content = sections[i + 1].trim();
-      title = title.slice(1, title.length-1)
+  //   for (let i = 1; i < sections.length; i += 2) {
+  //     let title = sections[i].trim();
+  //     let content = sections[i + 1].trim();
+  //     title = title.slice(1, title.length-1)
       
-      // if(cwedata[title]){ 
-      //   console.log('title', title)
-      //   // console.log(`content :${content}`)
-        // console.log(JSON.stringify(content))
-      //   // console.log('json', cwedata[title])
-      //   // console.log('json', cwedata[title][content])
-      //   // console.log('json : ', cwedata[title][content]["CWE_No"] )
-      // }
-      // console.log('json', cwedata[title])
+  //     // if(cwedata[title]){ 
+  //     //   console.log('title', title)
+  //     //   // console.log(`content :${content}`)
+  //       // console.log(JSON.stringify(content))
+  //     //   // console.log('json', cwedata[title])
+  //     //   // console.log('json', cwedata[title][content])
+  //     //   // console.log('json : ', cwedata[title][content]["CWE_No"] )
+  //     // }
+  //     // console.log('json', cwedata[title])
 
-      ////////cwe data
-      // if (currentTitle === title) {
-      //   // If the title is the same as the previous section, append the content
-      //   if(cwedata[title] && cwedata[title][content]){
-      //     console.log('Number : ', cwedata[title][content]["CWE_No"])
-      //     content = cwedata[title][content]["CWE_No"] + " " + content
-      //   }
-      //   combinedContent += '\n' + content;
-      // } else {
+  //     ////////cwe data
+  //     // if (currentTitle === title) {
+  //     //   // If the title is the same as the previous section, append the content
+  //     //   if(cwedata[title] && cwedata[title][content]){
+  //     //     console.log('Number : ', cwedata[title][content]["CWE_No"])
+  //     //     content = cwedata[title][content]["CWE_No"] + " " + content
+  //     //   }
+  //     //   combinedContent += '\n' + content;
+  //     // } else {
 
 
         
-        // If the title is different, push the previous section and start a new one
-      //   if (currentTitle) {
-      //     if(cwedata[title] && cwedata[title][content]){
-      //       console.log('Number : ', cwedata[title][content]["CWE_No"])
-      //       content = cwedata[title][content]["CWE_No"] + " " + content
-      //     }
-      //     parsedSections.push({ title: currentTitle, content: combinedContent });
-      //   }
-      //   currentTitle = title;
-      //   if(cwedata[title] && cwedata[title][content]){
-      //     console.log('Number : ', cwedata[title][content]["CWE_No"])
-      //     content = cwedata[title][content]["CWE_No"] + " " + content
-      //   }
-      //   combinedContent = content;
-      // }
+  //       // If the title is different, push the previous section and start a new one
+  //     //   if (currentTitle) {
+  //     //     if(cwedata[title] && cwedata[title][content]){
+  //     //       console.log('Number : ', cwedata[title][content]["CWE_No"])
+  //     //       content = cwedata[title][content]["CWE_No"] + " " + content
+  //     //     }
+  //     //     parsedSections.push({ title: currentTitle, content: combinedContent });
+  //     //   }
+  //     //   currentTitle = title;
+  //     //   if(cwedata[title] && cwedata[title][content]){
+  //     //     console.log('Number : ', cwedata[title][content]["CWE_No"])
+  //     //     content = cwedata[title][content]["CWE_No"] + " " + content
+  //     //   }
+  //     //   combinedContent = content;
+  //     // }
 
 
-      // if(cwedata[title]){
-      //   content = cwedata[title][content] + " --- " + content
-      // }
+  //     // if(cwedata[title]){
+  //     //   content = cwedata[title][content] + " --- " + content
+  //     // }
+  //     console.log('Value of title:', title);
+  //     console.log('Value of content:', content);
+  //     // console.log("mmmm:",parsedSections)
+  //   }
+
+  //   // Push the last section after the loop
+  //   if (currentTitle) {
+  //     parsedSections.push({ title: currentTitle, content: combinedContent });
+  //     console.log("m:",parsedSections)
+     
+  //   }
+    
+  //   console.log("mmmm:",parsedSections)
+  //   return parsedSections;
+  // };
+
+
+
+  ///////////////////////////////androbug report 2 ///////////////////////////////////////
+//   const generateSectionsForAndrobugs = (reportContent) => {
+//     const delimiter = /(\[Critical\]|\[Warning\]|\[Notice\]|\[Info\])/;
+//     const subSectionDelimiter = /<([^>]+)>\s*:([\s\S]*?)(?=(?:<[^>]+>)|\[Critical\]|\[Warning\]|\[Notice\]|\[Info\]|$)/g;
+
+//  // New delimiter for subsections
+//     const sections = reportContent.split(delimiter);
+//     const parsedSections = [];
+//     let currentTitle = ''; // To keep track of the current title
+//     let currentContent = ''; // To accumulate content for the current title
+  
+//     for (let i = 1; i < sections.length; i++) {
+//       const titleMatch = sections[i].match(/\[(Critical|Warning|Notice|Info)\]/);
+      
+//       // Check if a valid title is found
+//       if (titleMatch && titleMatch[1]) {
+//         if (currentTitle !== '') {
+//           console.log('Json', JSON.stringify(currentContent))
+//           var cweNo = 2
+//           if(currentTitle && cwedata[currentTitle] && currentContent && cwedata[currentTitle][currentContent]){
+//             cweNo = cwedata[currentTitle][currentContent].CWE_No
+//           }
+//           // Push the accumulated content for the previous title
+//           parsedSections.push({ c : cweNo, title: currentTitle, content: currentContent, subSections: [] });
+//           // console.log("aaa :",subsections)
+//         }
+        
+//         currentTitle = titleMatch[1];
+//         console.log('Original Section:', sections[i]);
+//         const subsections = sections[i].split(subSectionDelimiter).map(subsection => subsection.trim());
+//         console.log('Subsections:', subsections);
+        
+//         // Remove the title from subsections
+//         subsections.shift();
+  
+//         currentContent = subsections.join('\n');
+//         console.log('Subsections:', subsections);
+//       } else {
+//         // If no valid title is found, append the content to the current title
+//         currentContent += sections[i].trim() + '\n';
+//       }
+//     }
+  
+//     // Push the last accumulated section
+//     if(currentTitle && cwedata[currentTitle] && currentContent && cwedata[currentTitle][currentContent]){
+//       cweNo = cwedata[currentTitle][currentContent].CWE_No
+//     }
+//     if (currentTitle !== '') {
+//       parsedSections.push({ c : cweNo, title: currentTitle, content: currentContent, subSections: [] });
+//     }
+    
+//     // Merge sections of the same type into a single portion
+//     const mergedSections = {};
+//     parsedSections.forEach((section) => {
+//       if (!mergedSections[section.title]) {
+//         mergedSections[section.title] = {
+//           c: section.c,
+//           title: section.title,
+//           content: section.content,
+//           subSections: section.subSections.map(subsection => ({ title: subsection.title, content: subsection.content })),
+//         };
+//       } else {
+//         mergedSections[section.title].content += '\n' + section.content;
+//         mergedSections[section.title].subSections.push(...section.subSections.map(subsection => ({ title: subsection.title, content: subsection.content })));
+//       }
+//     });
+    
+//     console.log(mergedSections)
+//     return Object.values(mergedSections);
+//   };
+
+
+
+
+const generateSectionsForAndrobugs = (reportContent) => {
+  // console.log('------------>>>>>>>>>>>>>', reportContent)
+  // console.log('temp : ', JSON.stringify(temp))
+  // console.log(JSON.stringify(reportContent))
+
+  const markers = ['[Critical]', '[Warning]', '[Notice]', '[Info]'];
+  const parsedSections = [];
+
+  markers.forEach((marker) => {
+    const startIndex = reportContent.indexOf(marker);
+    if (startIndex !== -1) {
+      const endIndex =
+        markers[markers.indexOf(marker) + 1]
+          ? reportContent.indexOf(markers[markers.indexOf(marker) + 1], startIndex)
+          : reportContent.length;
+
+      let sectionContent = reportContent.substring(startIndex + marker.length, endIndex).trim();
+      // console.log(JSON.stringify(sectionContent), "\n\n\n\n")
+      let subsections = [];
+      
+      // console.log('cwe : ', cwe)
+      // If there are no <...> patterns, treat the whole section content as a single subsection
+      if (!sectionContent.match(/<([^>]+)>\s*([\s\S]*?)(?=(?:<[^>]+>)|\[Critical\]|\[Warning\]|\[Notice\]|\[Info\]|$)/)) {
+        let l = temp.filter(t => {
+          if(t[0] == marker && t[1] == sectionContent) return t;
+          else if(t[0] == marker){
+            // console.log(marker, '----', t[0], marker==t[0])
+            console.log(JSON.stringify(sectionContent))
+            // console.log(sectionContent==t[1], JSON.stringify(sectionContent), '\n-----\n', JSON.stringify(t[1]))
+          }
+        })
+        // console.log('l ------->', l)
+        let cwe = l.length>0 ? l[0][2] : undefined;
+        subsections.push({ title: sectionContent, content: sectionContent, cwe });
+        // console.log(JSON.stringify(sectionContent))
+      } else {
+        // Extract subsections with <>
+        // const subSectionRegex = /<([^>]+)>\s*([\s\S]*?)(?=(?:<[^>]+>)|\[Critical\]|\[Warning\]|\[Notice\]|\[Info\]|$)/g;
+        const subSectionRegex = /<([^>]+)>\s*([\s\S]*?)(?=(?:<[^>]+>)|\[Critical\]|\[Warning\]|\[Notice\]|\[Info\]|$)/g;
+
+
+        let matches;
+        
+        // let matches;
+
+        while ((matches = subSectionRegex.exec(sectionContent)) !== null) {
+          const [, title, content] = matches;
+          const endOfDescription = content.indexOf(':') + 1 || content.indexOf('\n') + 1;
+          const briefDescription = content.substring(0, endOfDescription).trim();
+          
+          const formattedTitle = '<' + title + '> ' + briefDescription;
+          const mainContent = content.substring(endOfDescription).trim();
+          // console.log('matches : ', matches)
+          let l = temp.filter(t => {
+            if(t[0] == marker && t[1] == content) return t;
+            else if(t[0] == marker){
+              // console.log(marker, '----', t[0], marker==t[0])
+              console.log(JSON.stringify(content))
+            }
+          })
+          // console.log('l ------->', l)
+          let cwe = l.length>0 ? l[0][2] : undefined;
+          // console.log(title)
+          // console.log(mainContent)
+          // console.log(cwe)
+           // Extracting the initial portion of the content for the title
+   
+    // ...
+          // console.log(JSON.stringify(content))
+          subsections.push({ title: formattedTitle, content: mainContent, cwe });
+        }
+      }
+      // console.log('subsections ----------> : ', subsections)
+
+      parsedSections.push({
+        title: marker.replace('[', '').replace(']', ''),
+        subSections: subsections,
+      });
+      // console.log(parsedSections)
     }
+  });
 
-    // Push the last section after the loop
-    if (currentTitle) {
-      parsedSections.push({ title: currentTitle, content: combinedContent });
-    }
+  return parsedSections;
+};
 
-    return parsedSections;
-  };
 
+
+
+
+  
+
+
+  
+  
+  
+  
+
+  
+  
 
   const generateSections = (reportContent) => {
     let delimiter;
@@ -559,9 +737,11 @@ console.log('Parsed Sections:', parsedSections);
 
   return (
     <div className="dropdown-container">
-      <Stepbyguide />
+      {/* <Stepbyguide /> */}
+      <div className="dropdown-and-toolinfo">
       <Dropdown selectedItem={selectedItem} handleItemClick={handleItemClick} isRunning={isRunning}/>
       <Toolinfo toolInfo={toolInfo} />
+      </div>
       <Apkselection
         selectedApks={selectedApks}
         selectedApk={selectedApk}
