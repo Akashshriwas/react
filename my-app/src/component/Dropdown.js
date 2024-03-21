@@ -38,9 +38,9 @@ export default function Dropdown({ selectedItem, handleItemClick, isRunning }) {
           <li>
             <button
               className="dropdown-item"
-              onClick={() => handleItemClick("Mobsf")}
+              onClick={() => handleItemClick("qark")}
             >
-              Mobsf
+              Qark
             </button>
           </li>
         </ul>

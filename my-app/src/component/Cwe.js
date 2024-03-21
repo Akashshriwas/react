@@ -8,7 +8,7 @@ const Cwe = ({cweData}) => {
   return (
     <div className='cwe'>
       {
-        cweData && cweData.success ? <>
+        cweData ? <>
         <div className='num'>
           <h7>CWE_No : </h7>
           {cweData.data.CWE_No}

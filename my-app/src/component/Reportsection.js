@@ -116,7 +116,7 @@ export default function Reportsections({
                         >
                            <div className="title-container">
       <span className="title">{subsection.title}</span>
-      <span className="cwe1"> CWE:{subsection.cwe}</span>
+      <span className="cwe1"> {subsection.cwe}</span>
     </div>
                           <div className="toggle-icon">
                             {expandedSubSections[index] &&

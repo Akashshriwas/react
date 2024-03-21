@@ -1,0 +1,41 @@
+===== Androwarn Report =====
+[+] Application Information
+	[.] Application Name                        
+		 - Public-API-Field
+
+	[.] Application Version                     
+		 - 1.0
+
+	[.] Package Name                            
+		 - edu.mit.public_api_field
+
+	[.] Description                             
+		 - N/A
+		 - N/A
+
+
+[+] Analysis Results
+	[.] Telephony Identifiers Leakage           
+		 - This application reads the unique device ID, i.e the IMEI for GSM and the MEID or ESN for CDMA phones
+
+	[.] Device Settings Harvesting              
+		 - This application logs the message '7' under the tag 'DroidBench'
+
+
+[+] Apk File
+	[.] File Name                               
+		 - a78c97fb5753692d7da092f32f7c8f6b
+
+	[.] Fingerprint                             
+		 - MD5: 2a53cc64da3fac4b86e1a42dab544a86
+		 - SHA-1: 3a0738c4834c3596d223faedc463a55521a72b37
+		 - SHA-256: 073579dacc20cb067a308e827bf48ccf9f08e9100130df239b74f7cd3f50cb83
+
+
+[+] Androidmanifest.Xml
+	[.] Permissions                             
+		 - Asked: ['android.permission.READ_PHONE_STATE']
+		 - Implied: []
+		 - Declared: []
+
+

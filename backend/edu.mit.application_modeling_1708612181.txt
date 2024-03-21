@@ -1,0 +1,41 @@
+===== Androwarn Report =====
+[+] Application Information
+	[.] Application Name                        
+		 - Application-Modeling
+
+	[.] Application Version                     
+		 - 1.0
+
+	[.] Package Name                            
+		 - edu.mit.application_modeling
+
+	[.] Description                             
+		 - N/A
+		 - N/A
+
+
+[+] Analysis Results
+	[.] Telephony Identifiers Leakage           
+		 - This application reads the unique device ID, i.e the IMEI for GSM and the MEID or ESN for CDMA phones
+
+	[.] Device Settings Harvesting              
+		 - This application logs the message 'Ledu/mit/application_modeling/AnotherActivity;->getApplication()Landroid/app/Application;' under the tag 'DroidBench'
+
+
+[+] Apk File
+	[.] File Name                               
+		 - 510567721019852c16644ac2ecaccc5d
+
+	[.] Fingerprint                             
+		 - MD5: 5bf93928bfa09ace700823869701fb9e
+		 - SHA-1: 6fb1192499325843c97a1f529f5fd26c47b5414d
+		 - SHA-256: 70d5f6502516c030d5e5beef38d5c5c35269e147a4b1ac737ca48c0927aae5f8
+
+
+[+] Androidmanifest.Xml
+	[.] Permissions                             
+		 - Asked: ['android.permission.READ_PHONE_STATE']
+		 - Implied: []
+		 - Declared: []
+
+

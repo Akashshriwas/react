@@ -23,6 +23,9 @@ export default function ApkSelection({
   return (
     <div className="apk-selection-container animate__animated animate__fadeIn">
       <div className="file-input-container">
+        <label for="file-input" class="custom-file-upload">
+          Choose File
+        </label>
         <input
           type="file"
           accept=".apk"
@@ -46,13 +49,13 @@ export default function ApkSelection({
         <div className="apk-info">
           <h3>APK Information:</h3>
           <p>Package Name: {apkInfo.name}</p>
-          <p>Version Name: {apkInfo.versionName}</p>
+          {/* <p>Version Name: {apkInfo.versionName}</p>
           <p>
             Permissions:{" "}
             {apkInfo && apkInfo.permissions
               ? apkInfo.permissions.join(", ")
               : "N/A"}
-          </p>
+          </p> */}
         </div>
       )}
 

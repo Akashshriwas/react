@@ -83,7 +83,7 @@ export default function Note() {
         </ul>
       </>
       );
-    } else if (item === 'Mobsf') {
+    } else if (item === 'qark') {
       setToolInfo(
         'MOBSF (Mobile Security Framework) is an open-source framework and automated tool designed for mobile app security testing. It assists in identifying potential security vulnerabilities and weaknesses in mobile applications. MOBSF is primarily focused on Android and iOS platforms.'
       );

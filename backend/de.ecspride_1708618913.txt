@@ -1,0 +1,74 @@
+===== Androwarn Report =====
+[+] Application Information
+	[.] Application Name                        
+		 - DirectLeak1
+
+	[.] Application Version                     
+		 - 1.0
+
+	[.] Package Name                            
+		 - de.ecspride
+
+	[.] Description                             
+		 - N/A
+		 - N/A
+
+
+[+] Analysis Results
+	[.] Telephony Identifiers Leakage           
+		 - This application reads the unique device ID, i.e the IMEI for GSM and the MEID or ESN for CDMA phones
+
+	[.] Device Settings Harvesting              
+		 - This application logs the message '  Current loader is stopped; replacing' under the tag 'LoaderManager'
+		 - This application logs the message '  Enqueuing as new pending loader' under the tag 'LoaderManager'
+		 - This application logs the message '  Ignoring load complete -- destroyed' under the tag 'LoaderManager'
+		 - This application logs the message '  Ignoring load complete -- not active' under the tag 'LoaderManager'
+		 - This application logs the message '' under the tag ''
+		 - This application logs the message '0' under the tag 'LocalBroadcastManager'
+		 - This application logs the message '10' under the tag 'FragmentManager'
+		 - This application logs the message '10' under the tag 'FragmentStatePagerAdapter'
+		 - This application logs the message '11' under the tag 'FragmentManager'
+		 - This application logs the message '12' under the tag 'FragmentManager'
+		 - This application logs the message '2' under the tag 'BackStackEntry'
+		 - This application logs the message '2' under the tag 'FragmentManager'
+		 - This application logs the message '2' under the tag 'LoaderManager'
+		 - This application logs the message '2' under the tag 'ViewPager'
+		 - This application logs the message '3' under the tag 'FragmentManager'
+		 - This application logs the message '3' under the tag 'LoaderManager'
+		 - This application logs the message '4' under the tag 'FragmentActivity'
+		 - This application logs the message '4' under the tag 'FragmentManager'
+		 - This application logs the message '4' under the tag 'LoaderManager'
+		 - This application logs the message '5' under the tag 'BackStackEntry'
+		 - This application logs the message '5' under the tag 'FragmentManager'
+		 - This application logs the message '6' under the tag 'BackStackEntry'
+		 - This application logs the message '7' under the tag 'FragmentManager'
+		 - This application logs the message '9' under the tag 'FragmentActivity'
+		 - This application logs the message 'Bad ComponentName while traversing activity parent metadata' under the tag 'TaskStackBuilder'
+		 - This application logs the message 'FragmentManager' under the tag 'FragmentManager'
+		 - This application logs the message 'saveAllState: no fragments!' under the tag 'FragmentManager'
+
+	[.] Connection Interfaces Exfiltration      
+		 - This application reads details about the currently active data network
+		 - This application tries to find out if the currently active data network is metered
+
+	[.] Telephony Services Abuse                
+		 - This application sends an SMS message '1' to the 'phone +49 1234' phone number
+
+
+[+] Apk File
+	[.] File Name                               
+		 - 346860037b27c732ad7d58efa69a6a42
+
+	[.] Fingerprint                             
+		 - MD5: 1d0dfb1e8f2621c60def2af0e315b6ff
+		 - SHA-1: 2e9f7331483e41b63f67f16e8d30d2ca04bd39b4
+		 - SHA-256: 287121c0d6ed2a1ada9aa9feebdcece992aa9fc75fd423b72e6c89530aba5a30
+
+
+[+] Androidmanifest.Xml
+	[.] Permissions                             
+		 - Asked: ['android.permission.READ_PHONE_STATE', 'android.permission.SEND_SMS']
+		 - Implied: []
+		 - Declared: []
+
+
