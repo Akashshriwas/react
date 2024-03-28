@@ -11,7 +11,7 @@ const connectDB = async () => {
   });
 
   try {
-    await mongoose.connect('mongodb://127.0.0.1/cwe_no', {
+    await mongoose.connect('mongodb+srv://akku:akku@cluster0.osapnyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
@@ -27,9 +27,17 @@ const CWESchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  Name: {
+    type: String,
+    required: true
+  },
   description: {
     type: String,
     required: true
+  },
+  Extended_Description: {
+    type: String,
+    // required: true
   }
 });
 

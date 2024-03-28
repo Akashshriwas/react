@@ -13,9 +13,17 @@ const Cwe = ({cweData}) => {
           <h7>CWE_No : </h7>
           {cweData.data.CWE_No}
           </div>
+          <div className='name'>
+          <h7>Name : </h7>
+          {cweData.data.Name}
+          </div>
         <div className='des'>
           <h7>Description of cwe_no : </h7>
           {cweData.data.description}
+          </div>
+          <div className='Ed'>
+          <h7> Extended_Description : </h7>
+          {cweData.data. Extended_Description}
           </div>
         </> : <></>
       }

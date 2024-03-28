@@ -1,0 +1,38 @@
+===== Androwarn Report =====
+[+] Application Information
+	[.] Application Name                        
+		 - Parcel
+
+	[.] Application Version                     
+		 - 1.0
+
+	[.] Package Name                            
+		 - edu.mit.parcel
+
+	[.] Description                             
+		 - N/A
+		 - N/A
+
+
+[+] Analysis Results
+	[.] Telephony Identifiers Leakage           
+		 - This application reads the unique device ID, i.e the IMEI for GSM and the MEID or ESN for CDMA phones
+
+
+[+] Apk File
+	[.] File Name                               
+		 - 728cbfd62f2b3f6fcb3b20d08e359763
+
+	[.] Fingerprint                             
+		 - MD5: 9323f4dcf9c9ae600cd28d74baa91614
+		 - SHA-1: 43885be1a45999062df209dfaa8f8a3df3921b16
+		 - SHA-256: 9cc76be77aa0ba2e072db8208ee7d061558cc2727be396a0da812a7bdfbefd65
+
+
+[+] Androidmanifest.Xml
+	[.] Permissions                             
+		 - Asked: ['android.permission.READ_PHONE_STATE']
+		 - Implied: []
+		 - Declared: []
+
+
