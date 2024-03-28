@@ -80,8 +80,8 @@ export default function Navbar() {
     1000 /* Add more CWE numbers as needed */,
   ];
   const handleToolSelect = (tool) => {
-    setSelectedTool(tool);
-    // navigate(`/${tool}`)
+    // setSelectedTool(tool);
+    navigate(`/${tool}`);
   };
 
   useEffect(
@@ -190,7 +190,7 @@ export default function Navbar() {
 
       {/* <Tooldropdown selectedTool={selectedTool} /> */}
       <Cwe cweData={cweData} />
-      {selectedTool && <Tooldropdown selectedTool={selectedTool} />}
+      {/* {selectedTool && <Tooldropdown selectedTool={selectedTool} />} */}
     </div>
   );
 }

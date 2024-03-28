@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import './DynamicToolPage.css';
+import React, { useState } from "react";
+import "./DynamicToolPage.css";
+import Instruction from "./Instruction";
 
 const Reverse = () => {
-  const [selectedTool, setSelectedTool] = useState('');
+  const [selectedTool, setSelectedTool] = useState("");
 
   const handleToolChange = (event) => {
     setSelectedTool(event.target.value);
   };
 
   return (
-    <div className="container">
+    <div className="page-container">
+      <Instruction />
       <h2>Select a Network Web Tool</h2>
-      <select  className="tool-select" value={selectedTool} onChange={handleToolChange}>
+      <select
+        className="tool-select"
+        value={selectedTool}
+        onChange={handleToolChange}
+      >
         <option value="">Select a tool</option>
         <option value="BurpSuite">BurpSuite</option>
         <option value="OWASP ZAP">OWASP ZAP</option>
@@ -33,4 +39,3 @@ const Reverse = () => {
 };
 
 export default Reverse;
-

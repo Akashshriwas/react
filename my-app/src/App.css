@@ -1,28 +1,24 @@
-
 header {
   position: relative;
   /* z-index: 2;  */
 }
 
-
 main {
   flex: 1;
-  padding: 20px;
-  height: 50vh;
+  width: 100%;
+  /* padding: 20px; */
+  /* height: 50vh; */
   /* background-image: url(./images/bgg.webp); */
-  background-size: cover; /* Ensure the background image covers the entire container */
-  background-position: center; /* Center the background image */
-  background-repeat: no-repeat; /* Prevent the background image from repeating */
   /* Text color on top of the background image */
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align: center; */
 }
 
 /* Optional: Add a semi-transparent overlay on top of the background image */
 main::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -31,10 +27,8 @@ main::before {
   /* background: rgba(0, 0, 0, 0.5);  */
 }
 
-
-
-.section11{
-  background-color:rgb(255, 255, 255);
+.section11 {
+  background-color: rgb(255, 255, 255);
   /* background-image: url(./images/bgg.webp); */
   /* background-size: cover; */
   /* background-repeat: no-repeat; */
@@ -43,18 +37,6 @@ main::before {
   /* display: flex; */
   /* flex-direction: column; */
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 body {
   margin: 0;
@@ -128,12 +110,7 @@ body {
   padding: 10px 0;
 }
 
-
-
-
 /* ######## home page   */
-
-
 
 body {
   font-family: Arial, sans-serif;
@@ -154,8 +131,10 @@ body {
 }
 
 .main {
-  flex: 1;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* padding: 20px; */
 }
 
 .hero {
@@ -292,16 +271,7 @@ body {
   padding: 10px 0;
 }
 
-
-
 /* #########main */
-
-
-
-.main {
-  padding: 20px;
-}
-
 .hero {
   display: flex;
   justify-content: space-between;
@@ -403,9 +373,3 @@ body {
     margin-bottom: 30px;
   }
 }
-
-
-
-
-
-

@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-import './DynamicToolPage.css';
+import React, { useState } from "react";
+import "./DynamicToolPage.css";
+import Instruction from "./Instruction.js";
 
-const DynamicToolPage= () => {
-  const [selectedTool, setSelectedTool] = useState('');
+const DynamicToolPage = () => {
+  const [selectedTool, setSelectedTool] = useState("");
 
   const handleToolChange = (event) => {
     setSelectedTool(event.target.value);
   };
 
   return (
-    <div className="container">
+    <div className="page-container">
+      <Instruction />
       <h2>Select a Dynamic Tool</h2>
-      <select  className="tool-select" value={selectedTool} onChange={handleToolChange}>
+      <select
+        className="tool-select"
+        value={selectedTool}
+        onChange={handleToolChange}
+      >
         <option value="">Select a tool</option>
         <option value="mobsf">Mobsf</option>
         <option value="drozer">Drozer</option>
@@ -29,4 +35,3 @@ const DynamicToolPage= () => {
 };
 
 export default DynamicToolPage;
-
